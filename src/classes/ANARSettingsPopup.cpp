@@ -1,4 +1,7 @@
 #include "ANARSettingsPopup.hpp"
+#include <Geode/binding/ButtonSprite.hpp>
+#include <Geode/binding/Slider.hpp>
+#include <Geode/loader/Mod.hpp>
 
 using namespace geode::prelude;
 
@@ -15,8 +18,9 @@ ANARSettingsPopup* ANARSettingsPopup::create() {
 bool ANARSettingsPopup::setup() {
     setTitle("Auto No Auto-Retry");
     m_noElasticity = true;
-    m_value = Mod::get()->getSettingValue<int64_t>("percentage");
-    m_enabled = Mod::get()->getSettingValue<bool>("enable");
+    auto mod = Mod::get();
+    m_value = mod->getSettingValue<int64_t>("percentage");
+    m_enabled = mod->getSettingValue<bool>("enable");
 
     m_percentageInput = TextInput::create(50.0f, "Num");
     m_percentageInput->setCommonFilter(CommonFilter::Uint);
@@ -72,8 +76,9 @@ bool ANARSettingsPopup::setup() {
     m_buttonMenu->addChild(enabledToggler);
 
     auto setButton = CCMenuItemExt::createSpriteExtra(ButtonSprite::create("Set", 40, true, "goldFont.fnt", "GJ_button_01.png", 30.0f, 0.8f), [this](auto) {
-        Mod::get()->setSettingValue("enable", m_enabled);
-        Mod::get()->setSettingValue("percentage", (int64_t)m_value);
+        auto mod = Mod::get();
+        mod->setSettingValue("enable", m_enabled);
+        mod->setSettingValue("percentage", (int64_t)m_value);
         onClose(nullptr);
     });
     setButton->setPosition({ 110.0f, 24.0f });

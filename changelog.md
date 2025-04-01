@@ -1,4 +1,7 @@
 # Auto No Auto-Retry Changelog
+## v1.0.3 (2025-04-01)
+- Internal code changes (April Fools' Day)
+
 ## v1.0.2 (2024-11-15)
 - Ported to Geode v4.0.0-beta.1
 
