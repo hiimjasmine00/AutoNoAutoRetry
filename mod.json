@@ -1,50 +1,54 @@
 {
-    "geode": "4.3.1",
-    "gd": {
-        "android": "2.2074",
-        "win": "2.2074",
-        "mac": "2.2074",
-        "ios": "2.2074"
+  "geode": "4.3.1",
+  "gd": {
+    "android": "2.2074",
+    "win": "2.2074",
+    "mac": "2.2074",
+    "ios": "2.2074"
+  },
+  "version": "v1.0.5",
+  "id": "hiimjustin000.auto_no_auto_retry",
+  "name": "Auto No Auto-Retry",
+  "developer": "hiimjasmine00",
+  "description": "A mod that turns off auto-retry after a set percentage.",
+  "settings": {
+    "enable": {
+      "name": "Enable",
+      "description": "Whether or not the mod is enabled.",
+      "type": "bool",
+      "default": true
     },
-    "version": "v1.0.4",
-    "id": "hiimjustin000.auto_no_auto_retry",
-    "name": "Auto No Auto-Retry",
-    "developer": "hiimjasmine00",
-    "description": "A mod that turns off auto-retry after a set percentage.",
-    "settings": {
-        "enable": {
-            "name": "Enable",
-            "description": "Whether or not the mod is enabled.",
-            "type": "bool",
-            "default": true
-        },
-        "percentage": {
-            "name": "Percentage",
-            "description": "The percentage of the level that must be completed before auto-retry is turned off.",
-            "type": "int",
-            "default": 100,
-            "min": 0,
-            "max": 100
-        }
-    },
-    "resources": {
-        "sprites": [
-            "resources/*.png"
-        ]
-    },
-    "dependencies": {
-        "geode.node-ids": ">=1.2.0"
-    },
-    "links": {
-        "community": "https://discord.gg/QVKmbvBXA7",
-        "source": "https://github.com/hiimjasmine00/AutoNoAutoRetry",
-        "homepage": "https://www.hiimjasmine00.com"
-    },
-    "tags": [
-        "customization",
-        "enhancement",
-        "gameplay",
-        "interface",
-        "offline"
+    "percentage": {
+      "name": "Percentage",
+      "description": "The percentage of the level that must be completed before auto-retry is turned off.",
+      "type": "int",
+      "default": 100,
+      "min": 0,
+      "max": 100
+    }
+  },
+  "resources": {
+    "sprites": [
+      "resources/*.png"
     ]
+  },
+  "dependencies": [
+    {
+      "id": "geode.node-ids",
+      "version": ">=1.2.0",
+      "importance": "required"
+    }
+  ],
+  "links": {
+    "community": "https://discord.gg/QVKmbvBXA7",
+    "source": "https://github.com/hiimjasmine00/AutoNoAutoRetry",
+    "homepage": "https://www.hiimjasmine00.com"
+  },
+  "tags": [
+    "customization",
+    "enhancement",
+    "gameplay",
+    "interface",
+    "offline"
+  ]
 }

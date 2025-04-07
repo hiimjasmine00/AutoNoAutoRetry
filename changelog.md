@@ -1,4 +1,8 @@
 # Auto No Auto-Retry Changelog
+
+# v1.0.5 (2025-04-7)
+- Mod no longer activates when using a StartPos.
+
 ## v1.0.4 (2025-04-07)
 - Added support for iOS
 - Added node IDs to the settings popup

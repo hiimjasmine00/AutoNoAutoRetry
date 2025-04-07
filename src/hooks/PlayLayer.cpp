@@ -39,7 +39,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
             return;
         }
 
-        if (!m_isPracticeMode && !player->m_isPlatformer && getCurrentPercentInt() >= Mod::get()->getSettingValue<int64_t>("percentage"))
+        if (!m_isPracticeMode && !m_isTestMode && !player->m_isPlatformer && getCurrentPercentInt() >= Mod::get()->getSettingValue<int64_t>("percentage"))
             GM->setGameVariable("0026", false);
 
         PlayLayer::destroyPlayer(player, object);
