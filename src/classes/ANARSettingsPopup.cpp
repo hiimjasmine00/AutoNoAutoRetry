@@ -16,83 +16,96 @@ ANARSettingsPopup* ANARSettingsPopup::create() {
 }
 
 bool ANARSettingsPopup::setup() {
+    setID("ANARSettingsPopup");
     setTitle("Auto No Auto-Retry");
+    m_title->setID("auto-no-auto-retry-title");
+    m_mainLayer->setID("main-layer");
+    m_buttonMenu->setID("button-menu");
+    m_bgSprite->setID("background");
+    m_closeBtn->setID("close-button");
     m_noElasticity = true;
+
     auto mod = Mod::get();
     m_value = mod->getSettingValue<int64_t>("percentage");
-    m_enabled = mod->getSettingValue<bool>("enable");
+    auto enabled = mod->getSettingValue<bool>("enable");
 
-    m_percentageInput = TextInput::create(50.0f, "Num");
-    m_percentageInput->setCommonFilter(CommonFilter::Uint);
-    m_percentageInput->setPosition({ 76.25f, 90.0f });
-    m_percentageInput->getInputNode()->setLabelPlaceholderColor({ 120, 170, 240 });
-    m_percentageInput->setString(std::to_string(m_value));
-    m_percentageInput->setCallback([this](std::string const& text) {
-        auto value = text.empty() ? 0 : numFromString<int>(text).unwrapOr(0);
-        m_value = std::clamp(value, 0, 100);
-        valueChanged(value != m_value);
-    });
-    m_percentageInput->setEnabled(m_enabled);
-    m_percentageInput->setAnchorPoint({ 0.0f, 0.5f });
-    m_mainLayer->addChild(m_percentageInput);
+    auto percentageInput = TextInput::create(50.0f, "Num");
+    percentageInput->setCommonFilter(CommonFilter::Uint);
+    percentageInput->setMaxCharCount(3);
+    percentageInput->setPosition({ 76.25f, 90.0f });
+    percentageInput->getInputNode()->setLabelPlaceholderColor({ 120, 170, 240 });
+    percentageInput->setString(std::to_string(m_value));
+    percentageInput->setEnabled(enabled);
+    percentageInput->setAnchorPoint({ 0.0f, 0.5f });
+    percentageInput->setID("percentage-input");
+    m_mainLayer->addChild(percentageInput);
 
-    m_leftButton = CCMenuItemExt::createSpriteExtraWithFrameName("edit_leftBtn_001.png", 1.1f, [this](auto) {
+    auto percentageSlider = Slider::create(nullptr, nullptr, 0.9f);
+    percentageSlider->setPosition({ 110.0f, 55.0f });
+    percentageSlider->setValue(m_value / 100.0f);
+    percentageSlider->m_touchLogic->setEnabled(enabled);
+    percentageSlider->setID("percentage-slider");
+    m_mainLayer->addChild(percentageSlider);
+
+    auto prevButton = CCMenuItemExt::createSpriteExtraWithFrameName("edit_leftBtn_001.png", 1.1f, [this, percentageSlider, percentageInput](auto) {
         m_value = std::max(0, m_value - 1);
-        valueChanged(true);
+        percentageSlider->setValue(m_value / 100.0f);
+        percentageInput->setString(std::to_string(m_value));
     });
-    m_leftButton->setPosition({ 60.0f, 90.0f });
-    m_leftButton->setEnabled(m_enabled);
-    m_buttonMenu->addChild(m_leftButton);
+    prevButton->setPosition({ 60.0f, 90.0f });
+    prevButton->setEnabled(enabled);
+    prevButton->setID("prev-button");
+    m_buttonMenu->addChild(prevButton);
 
-    m_rightButton = CCMenuItemExt::createSpriteExtraWithFrameName("edit_rightBtn_001.png", 1.1f, [this](auto) {
+    auto nextButton = CCMenuItemExt::createSpriteExtraWithFrameName("edit_rightBtn_001.png", 1.1f, [this, percentageSlider, percentageInput](auto) {
         m_value = std::min(100, m_value + 1);
-        valueChanged(true);
+        percentageSlider->setValue(m_value / 100.0f);
+        percentageInput->setString(std::to_string(m_value));
     });
-    m_rightButton->setPosition({ 160.0f, 90.0f });
-    m_rightButton->setEnabled(m_enabled);
-    m_buttonMenu->addChild(m_rightButton);
+    nextButton->setPosition({ 160.0f, 90.0f });
+    nextButton->setEnabled(enabled);
+    nextButton->setID("next-button");
+    m_buttonMenu->addChild(nextButton);
 
-    m_slider = Slider::create(this, menu_selector(ANARSettingsPopup::onSlider), 0.9f);
-    m_slider->setPosition({ 110.0f, 55.0f });
-    m_slider->setValue(m_value / 100.0f);
-    m_slider->m_touchLogic->setEnabled(m_enabled);
-    m_mainLayer->addChild(m_slider);
+    CCMenuItemExt::assignCallback<SliderThumb>(percentageSlider->m_touchLogic->m_thumb, [this, percentageInput](SliderThumb* sender) {
+        m_value = roundf(sender->getValue() * 100.0f);
+        percentageInput->setString(std::to_string(m_value));
+    });
+
+    percentageInput->setCallback([this, percentageSlider](const std::string& text) {
+        m_value = std::clamp(numFromString<int>(text).unwrapOr(0), 0, 100);
+        percentageSlider->setValue(m_value / 100.0f);
+    });
 
     auto percentLabel = CCLabelBMFont::create("%", "bigFont.fnt");
     percentLabel->setScale(0.6f);
     percentLabel->setPosition({ 146.25f, 90.0f });
     percentLabel->setAnchorPoint({ 1.0f, 0.5f });
+    percentLabel->setID("percentage-label");
     m_mainLayer->addChild(percentLabel);
 
-    auto enabledToggler = CCMenuItemExt::createTogglerWithStandardSprites(0.8f, [this](auto) {
-        m_enabled = !m_enabled;
-        m_leftButton->setEnabled(m_enabled);
-        m_rightButton->setEnabled(m_enabled);
-        m_slider->m_touchLogic->setEnabled(m_enabled);
-        m_percentageInput->setEnabled(m_enabled);
-    });
+    auto enabledToggler = CCMenuItemExt::createTogglerWithStandardSprites(0.8f,
+        [this, prevButton, nextButton, percentageSlider, percentageInput](CCMenuItemToggler* sender) {
+            prevButton->setEnabled(!sender->m_toggled);
+            nextButton->setEnabled(!sender->m_toggled);
+            percentageSlider->m_touchLogic->setEnabled(!sender->m_toggled);
+            percentageInput->setEnabled(!sender->m_toggled);
+        });
     enabledToggler->setPosition({ 24.0f, 24.0f });
-    enabledToggler->toggle(m_enabled);
+    enabledToggler->toggle(enabled);
+    enabledToggler->setID("enabled-toggle");
     m_buttonMenu->addChild(enabledToggler);
 
-    auto setButton = CCMenuItemExt::createSpriteExtra(ButtonSprite::create("Set", 40, true, "goldFont.fnt", "GJ_button_01.png", 30.0f, 0.8f), [this](auto) {
-        auto mod = Mod::get();
-        mod->setSettingValue("enable", m_enabled);
-        mod->setSettingValue("percentage", (int64_t)m_value);
-        onClose(nullptr);
-    });
+    auto setButton = CCMenuItemExt::createSpriteExtra(ButtonSprite::create("Set", 40, true, "goldFont.fnt", "GJ_button_01.png", 30.0f, 0.8f),
+        [this, enabledToggler](auto) {
+            auto mod = Mod::get();
+            mod->setSettingValue("enable", enabledToggler->m_toggled);
+            mod->setSettingValue("percentage", (int64_t)m_value);
+            onClose(nullptr);
+        });
     setButton->setPosition({ 110.0f, 24.0f });
+    setButton->setID("set-button");
     m_buttonMenu->addChild(setButton);
 
     return true;
-}
-
-void ANARSettingsPopup::onSlider(CCObject* sender) {
-    m_value = std::round(static_cast<SliderThumb*>(sender)->getValue() * 100.0f);
-    valueChanged(true);
-}
-
-void ANARSettingsPopup::valueChanged(bool updateText) {
-    m_slider->setValue(m_value / 100.0f);
-    if (updateText) m_percentageInput->setString(std::to_string(m_value));
 }

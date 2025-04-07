@@ -28,11 +28,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
     void resetLevel() {
         PlayLayer::resetLevel();
 
-        if (auto popup = CCScene::get()->getChildByType<ANARSettingsPopup>(0)) {
-            popup->setKeypadEnabled(false);
-            popup->setTouchEnabled(false);
-            popup->removeFromParentAndCleanup(true);
-        }
+        if (auto popup = CCScene::get()->getChildByType<ANARSettingsPopup>(0)) popup->onClose(nullptr);
     }
 
     void destroyPlayer(PlayerObject* player, GameObject* object) {
