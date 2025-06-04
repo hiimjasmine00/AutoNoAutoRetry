@@ -1,11 +1,16 @@
 #include "../classes/ANARSettingsPopup.hpp"
 #include <Geode/binding/GameManager.hpp>
 #include <Geode/binding/PlayerObject.hpp>
+#include <Geode/binding/GJGameLevel.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
 
 class $modify(ANARPlayLayer, PlayLayer) {
+    struct Fields {
+        GJGameLevel *m_level = nullptr;
+    };
+
     static void onModify(ModifyBase<ModifyDerive<ANARPlayLayer, PlayLayer>>& self) {
         (void)self.getHook("PlayLayer::destroyPlayer").map([](Hook* hook) {
             auto mod = Mod::get();
@@ -32,14 +37,23 @@ class $modify(ANARPlayLayer, PlayLayer) {
     }
 
     void destroyPlayer(PlayerObject* player, GameObject* object) {
+        auto mod = Mod::get();
+       
         auto GM = GameManager::get();
         auto autoRetryEnabled = GM->getGameVariable("0026");
+        
+        // checks if new best option is enabled, if so, sets the m_level field to the current level
+        if (mod->getSettingValue<bool>("new-best")) m_fields->m_level = PlayLayer::get()->m_level;
+
         if (!autoRetryEnabled) {
             PlayLayer::destroyPlayer(player, object);
             return;
         }
 
-        if (!m_isPracticeMode && !player->m_isPlatformer && getCurrentPercentInt() >= Mod::get()->getSettingValue<int64_t>("percentage"))
+        // checks if m_level field exists and if not, uses the percent setting
+        auto setPercentage = m_fields->m_level ? m_fields->m_level->m_normalPercent.value() : as<int>(mod->getSettingValue<int64_t>("percentage"));
+
+        if (!m_isPracticeMode && !player->m_isPlatformer && getCurrentPercentInt() >= setPercentage)
             GM->setGameVariable("0026", false);
 
         PlayLayer::destroyPlayer(player, object);

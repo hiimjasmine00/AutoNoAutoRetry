@@ -1,5 +1,5 @@
 {
-    "geode": "4.3.1",
+    "geode": "4.5.0",
     "gd": {
         "android": "2.2074",
         "win": "2.2074",
@@ -10,7 +10,7 @@
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
-    "description": "A mod that turns off auto-retry after a set percentage.",
+    "description": "Turn off auto-retry after a set percentage.",
     "settings": {
         "enable": {
             "name": "Enable",
@@ -25,6 +25,12 @@
             "default": 100,
             "min": 0,
             "max": 100
+        },
+        "new-best": {
+            "name": "On New Best",
+            "description": "Turn off auto-retry when reaching a new best. This will override the percentage setting.",
+            "type": "bool",
+            "default": false
         }
     },
     "resources": {
