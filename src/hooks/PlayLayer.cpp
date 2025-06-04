@@ -50,19 +50,19 @@ class $modify(ANARPlayLayer, PlayLayer) {
         // checks if new best option is enabled, if so, sets the m_level field to the current level
         if (mod->getSettingValue<bool>("new-best")) {
             log::info("Playing level with new best setting enabled");
-            m_fields->m_level = PlayLayer::get()->m_level;
+            m_fields->m_level = this->m_level;
         } else {
             log::warn("Playing level with new best setting disabled");
             m_fields->m_level = nullptr;
         }
 
-        // checks if m_level field exists and if not, uses the percent setting (defaults to 1% if m_level is valid)
+        // checks if m_level field exists and if not, uses the percent setting (defaults to 1% if using new best setting)
         auto setPercentage = m_fields->m_level
                                  ? (m_fields->m_level->m_normalPercent.value() == 0 ? 1 : m_fields->m_level->m_normalPercent.value())
                                  : as<int>(mod->getSettingValue<int64_t>("percentage"));
         auto startPosIsOk = player->m_isStartPos ? player->m_isStartPos && mod->getSettingValue<bool>("start-pos") : true; // if the player wants no auto retry on startpos
 
-        if ((!m_isPracticeMode && !player->m_isPlatformer && startPosIsOk) && (getCurrentPercentInt() >= setPercentage))
+        if ((!m_isPracticeMode && !player->m_isPlatformer && startPosIsOk) && (this->getCurrentPercentInt() >= setPercentage))
             GM->setGameVariable("0026", false);
 
         PlayLayer::destroyPlayer(player, object);
