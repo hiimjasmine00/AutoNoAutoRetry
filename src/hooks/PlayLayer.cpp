@@ -54,7 +54,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
         auto setPercentage = m_fields->m_level
                                  ? (m_fields->m_level->m_normalPercent.value() == 0 ? 1 : m_fields->m_level->m_normalPercent.value())
                                  : as<int>(mod->getSettingValue<int64_t>("percentage"));
-        auto startPosIsOk = player->m_isStartPos && mod->getSettingValue<bool>("start-pos"); // if the player wants no auto retry on startpos
+        auto startPosIsOk = player->m_isStartPos ? player->m_isStartPos && mod->getSettingValue<bool>("start-pos") : true; // if the player wants no auto retry on startpos
 
         if ((!m_isPracticeMode && !player->m_isPlatformer && startPosIsOk) && (getCurrentPercentInt() >= setPercentage))
             GM->setGameVariable("0026", false);
