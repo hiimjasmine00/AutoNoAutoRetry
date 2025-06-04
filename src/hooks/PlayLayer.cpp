@@ -47,7 +47,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
             return;
         }
 
-        // checks if new best option is enabled, if so, sets the m_level field to the current level
+        // checks if new best option is enabled - if so, sets the m_level field to the current level
         if (mod->getSettingValue<bool>("new-best")) {
             log::info("Playing level with new best setting enabled");
             m_fields->m_level = this->m_level;
@@ -56,7 +56,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
             m_fields->m_level = nullptr;
         }
 
-        // checks if m_level field exists and if not, uses the percent setting
+        // checks if m_level field exists - if not, uses the percent setting
         auto setPercentage = m_fields->m_level
                                  ? m_fields->m_level->m_normalPercent.value()
                                  : as<int>(mod->getSettingValue<int64_t>("percentage"));

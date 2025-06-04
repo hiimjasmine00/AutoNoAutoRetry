@@ -1,5 +1,5 @@
 # Auto No Auto-Retry Changelog
-## v1.2.0 (2025-06-04)
+## v1.1.0 (2025-06-04)
 - Added setting to instead work with new bests
 - Added setting to work when playing with a start pos
 

@@ -6,7 +6,7 @@
         "mac": "2.2074",
         "ios": "2.2074"
     },
-    "version": "v1.2.0",
+    "version": "v1.1.0",
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
@@ -29,7 +29,7 @@
         },
         "new-best": {
             "name": "On New Best",
-            "description": "Turn off auto-retry when reaching a new best percentage in normal mode. This will override the manual percentage setting.",
+            "description": "Turn off auto-retry when reaching a new best percentage in normal mode. <cr>This will override the manual percentage setting.</c>",
             "type": "bool",
             "default": false,
             "enable-if": "enable"
