@@ -1,4 +1,8 @@
 # Auto No Auto-Retry Changelog
+## v1.2.0 (2025-06-04)
+- Added setting to instead work with new bests
+- Added setting to work when playing with a start pos
+
 ## v1.0.4 (2025-04-07)
 - Added support for iOS
 - Added node IDs to the settings popup
