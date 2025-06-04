@@ -56,9 +56,9 @@ class $modify(ANARPlayLayer, PlayLayer) {
             m_fields->m_level = nullptr;
         }
 
-        // checks if m_level field exists and if not, uses the percent setting (defaults to 1% if using new best setting)
+        // checks if m_level field exists and if not, uses the percent setting
         auto setPercentage = m_fields->m_level
-                                 ? (m_fields->m_level->m_normalPercent.value() == 0 ? 1 : m_fields->m_level->m_normalPercent.value())
+                                 ? m_fields->m_level->m_normalPercent.value()
                                  : as<int>(mod->getSettingValue<int64_t>("percentage"));
         auto startPosIsOk = player->m_isStartPos ? player->m_isStartPos && mod->getSettingValue<bool>("start-pos") : true; // if the player wants no auto retry on startpos
 
