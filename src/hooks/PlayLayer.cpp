@@ -41,16 +41,22 @@ class $modify(ANARPlayLayer, PlayLayer) {
        
         auto GM = GameManager::get();
         auto autoRetryEnabled = GM->getGameVariable("0026");
-        
-        // checks if new best option is enabled, if so, sets the m_level field to the current level
-        (mod->getSettingValue<bool>("new-best")) ? m_fields->m_level = PlayLayer::get()->m_level : m_fields->m_level = nullptr;
 
         if (!autoRetryEnabled) {
             PlayLayer::destroyPlayer(player, object);
             return;
         }
 
-        // checks if m_level field exists and if not, uses the percent setting (defaults to 1 if m_level is valid)
+        // checks if new best option is enabled, if so, sets the m_level field to the current level
+        if (mod->getSettingValue<bool>("new-best")) {
+            log::info("Playing level with new best setting enabled");
+            m_fields->m_level = PlayLayer::get()->m_level;
+        } else {
+            log::warn("Playing level with new best setting disabled");
+            m_fields->m_level = nullptr;
+        }
+
+        // checks if m_level field exists and if not, uses the percent setting (defaults to 1% if m_level is valid)
         auto setPercentage = m_fields->m_level
                                  ? (m_fields->m_level->m_normalPercent.value() == 0 ? 1 : m_fields->m_level->m_normalPercent.value())
                                  : as<int>(mod->getSettingValue<int64_t>("percentage"));
