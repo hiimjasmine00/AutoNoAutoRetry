@@ -10,7 +10,7 @@
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
-    "description": "Turn off auto-retry after a set percentage.",
+    "description": "A mod that turns off auto-retry after a set percentage.",
     "settings": {
         "enable": {
             "name": "Enable",
@@ -28,7 +28,7 @@
         },
         "new-best": {
             "name": "On New Best",
-            "description": "Turn off auto-retry when reaching a new best. This will override the percentage setting.",
+            "description": "Turn off auto-retry when reaching a new best percentage in normal mode. This will override the manual percentage setting.",
             "type": "bool",
             "default": false
         }
