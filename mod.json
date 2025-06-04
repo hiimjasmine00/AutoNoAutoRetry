@@ -10,7 +10,7 @@
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
-    "description": "A mod that turns off auto-retry after a set percentage.",
+    "description": "Turns off auto-retry after a set percentage.",
     "settings": {
         "enable": {
             "name": "Enable",
@@ -24,13 +24,22 @@
             "type": "int",
             "default": 100,
             "min": 0,
-            "max": 100
+            "max": 100,
+            "enable-if": "enable"
         },
         "new-best": {
             "name": "On New Best",
             "description": "Turn off auto-retry when reaching a new best percentage in normal mode. This will override the manual percentage setting.",
             "type": "bool",
-            "default": false
+            "default": false,
+            "enable-if": "enable"
+        },
+        "start-pos": {
+            "name": "Include Testmode",
+            "description": "Turn off auto-retry even when playing from a Start Pos.",
+            "type": "bool",
+            "default": false,
+            "enable-if": "enable"
         }
     },
     "resources": {
