@@ -1,4 +1,7 @@
 # Auto No Auto-Retry Changelog
+## v1.0.5 (2025-06-22)
+- Ported to Geode v4.6.1
+
 ## v1.0.4 (2025-04-07)
 - Added support for iOS
 - Added node IDs to the settings popup
