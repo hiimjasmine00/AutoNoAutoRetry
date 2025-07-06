@@ -1,16 +1,16 @@
 {
-    "geode": "4.6.1",
+    "geode": "4.6.3",
     "gd": {
         "android": "2.2074",
         "win": "2.2074",
         "mac": "2.2074",
         "ios": "2.2074"
     },
-    "version": "v1.0.5",
+    "version": "v1.1.0",
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
-    "description": "Turns off auto-retry after a set percentage.",
+    "description": "Auto-retry improved.",
     "settings": {
         "enable": {
             "name": "Enable",
@@ -21,10 +21,25 @@
         "percentage": {
             "name": "Percentage",
             "description": "The percentage of the level that must be completed before auto-retry is turned off.",
-            "type": "int",
-            "default": 100,
-            "min": 0,
-            "max": 100
+            "type": "float",
+            "enable-if": "enable",
+            "default": 100.0,
+            "min": 0.0,
+            "max": 100.0
+        },
+        "new-best": {
+            "name": "New Best",
+            "description": "Whether or not to turn off auto-retry when a new best is set.",
+            "type": "bool",
+            "enable-if": "enable",
+            "default": false
+        },
+        "testmode": {
+            "name": "Testmode",
+            "description": "Whether or not to turn off auto-retry when in test mode.",
+            "type": "bool",
+            "enable-if": "enable",
+            "default": false
         }
     },
     "resources": {
@@ -33,7 +48,14 @@
         ]
     },
     "dependencies": {
-        "geode.node-ids": ">=1.2.0"
+        "geode.node-ids": ">=v1.2.0",
+        "cvolton.level-id-api": ">=v1.2.0"
+    },
+    "incompatibilities": {
+        "supkittymeow.time_anti-restart": {
+            "version": ">=v1.0.0",
+            "importance": "breaking"
+        }
     },
     "links": {
         "community": "https://discord.gg/QVKmbvBXA7",

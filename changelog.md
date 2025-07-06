@@ -1,4 +1,9 @@
 # Auto No Auto-Retry Changelog
+## v1.1.0 (2025-07-06)
+- Added "New Best" and "Testmode" settings ([#1](https://github.com/hiimjasmine00/AutoNoAutoRetry/pull/1), [#2](https://github.com/hiimjasmine00/AutoNoAutoRetry/pull/2))
+- Added individual level customization for the settings popup
+- Allowed decimal values for the percentage setting, with [Decimal Percentages](mod:raydeeux_thesillydoggo.decimalpercentages) support
+
 ## v1.0.5 (2025-06-22)
 - Ported to Geode v4.6.1
 

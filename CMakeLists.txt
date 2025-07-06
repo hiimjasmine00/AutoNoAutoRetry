@@ -9,12 +9,13 @@ endif()
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(GEODE_DISABLE_PRECOMPILED_HEADERS ON)
 
-project(AutoNoAutoRetry VERSION 1.0.5)
+project(AutoNoAutoRetry VERSION 1.1.0)
 
 add_library(${PROJECT_NAME} SHARED
     src/classes/ANARSettingsPopup.cpp
     src/hooks/PauseLayer.cpp
     src/hooks/PlayLayer.cpp
+    src/AutoNoAutoRetry.cpp
 )
 
 if (NOT DEFINED ENV{GEODE_SDK})

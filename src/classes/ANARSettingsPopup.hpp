@@ -1,15 +1,12 @@
 #include <Geode/ui/Popup.hpp>
-#include <Geode/ui/TextInput.hpp>
 
-class ANARSettingsPopup : public geode::Popup<> {
+class ANARSettingsPopup : public geode::Popup<GJGameLevel*> {
 protected:
-    int m_value;
+    double m_value;
 
-    bool setup() override;
+    bool setup(GJGameLevel*) override;
 public:
-    static ANARSettingsPopup* create();
+    static ANARSettingsPopup* create(GJGameLevel*);
 
-    void onClose(cocos2d::CCObject* sender) override {
-        Popup::onClose(sender);
-    }
+    void close();
 };
