@@ -7,7 +7,9 @@
 using namespace geode::prelude;
 
 class $modify(ANARPauseLayer, PauseLayer) {
-    ANAR_MODIFY
+    static void onModify(ModifyBase<ModifyDerive<ANARPauseLayer, PauseLayer>>& self) {
+        AutoNoAutoRetry::modify(self.m_hooks);
+    }
 
     void customSetup() {
         PauseLayer::customSetup();

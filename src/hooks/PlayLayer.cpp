@@ -7,7 +7,9 @@
 using namespace geode::prelude;
 
 class $modify(ANARPlayLayer, PlayLayer) {
-    ANAR_MODIFY
+    static void onModify(ModifyBase<ModifyDerive<ANARPlayLayer, PlayLayer>>& self) {
+        AutoNoAutoRetry::modify(self.m_hooks);
+    }
 
     void resetLevel() {
         PlayLayer::resetLevel();
@@ -30,7 +32,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
         else if (auto dailyID = level->m_dailyID.value(); dailyID > 0) str = fmt::format("percentage_normal_{}_periodic_{}", id, dailyID);
         else str = fmt::format("percentage_normal_{}", id);
 
-        return mod->getSavedValue<float>(str, percent);
+        return mod->hasSavedValue(str) ? mod->getSavedValue<float>(str) : percent;
     }
 
     void destroyPlayer(PlayerObject* player, GameObject* object) {
@@ -45,8 +47,9 @@ class $modify(ANARPlayLayer, PlayLayer) {
         if (!GM->getGameVariable("0026")) return PlayLayer::destroyPlayer(player, object);
 
         auto percent = getCurrentPercent();
-        if (percent < AutoNoAutoRetry::getPercentage(container) && (!AutoNoAutoRetry::getNewBest(container) || percent <= getPercentage()))
+        if (percent < AutoNoAutoRetry::getPercentage(container) && (!AutoNoAutoRetry::getNewBest(container) || percent <= getPercentage())) {
             return PlayLayer::destroyPlayer(player, object);
+        }
 
         GM->setGameVariable("0026", false);
         PlayLayer::destroyPlayer(player, object);

@@ -76,7 +76,12 @@ bool ANARSettingsPopup::setup(GJGameLevel* level) {
     });
 
     percentageInput->setCallback([this, percentageSlider](const std::string& text) {
-        m_value = std::clamp(numFromString<double>(text).unwrapOr(0.0), 0.0, 100.0);
+        #ifdef __cpp_lib_to_chars
+        std::from_chars(text.data(), text.data() + text.size(), m_value);
+        #else
+        if (auto num = numFromString<double>(text).ok()) m_value = *num;
+        #endif
+        m_value = std::clamp(m_value, 0.0, 100.0);
         percentageSlider->setValue(m_value / 100.0);
     });
 
@@ -115,29 +120,32 @@ bool ANARSettingsPopup::setup(GJGameLevel* level) {
     testmodeLabel->setID("testmode-label");
     m_mainLayer->addChild(testmodeLabel);
 
-    auto enabledToggler = CCMenuItemExt::createTogglerWithStandardSprites(0.8f,
-        [this, prevButton, nextButton, percentageSlider, percentageInput, newBestToggle, testmodeToggle](CCMenuItemToggler* sender) {
-            prevButton->setEnabled(!sender->m_toggled);
-            nextButton->setEnabled(!sender->m_toggled);
-            percentageSlider->m_touchLogic->setEnabled(!sender->m_toggled);
-            percentageInput->setEnabled(!sender->m_toggled);
-            newBestToggle->setEnabled(!sender->m_toggled);
-            testmodeToggle->setEnabled(!sender->m_toggled);
-        });
+    auto enabledToggler = CCMenuItemExt::createTogglerWithStandardSprites(0.8f, [
+        this, prevButton, nextButton, percentageSlider, percentageInput, newBestToggle, testmodeToggle
+    ](CCMenuItemToggler* sender) {
+        auto enabled = !sender->m_toggled;
+        prevButton->setEnabled(enabled);
+        nextButton->setEnabled(enabled);
+        percentageSlider->m_touchLogic->setEnabled(enabled);
+        percentageInput->setEnabled(enabled);
+        newBestToggle->setEnabled(enabled);
+        testmodeToggle->setEnabled(enabled);
+    });
     enabledToggler->setPosition({ 24.0f, 24.0f });
     enabledToggler->toggle(enabled);
     enabledToggler->setID("enabled-toggle");
     m_buttonMenu->addChild(enabledToggler);
 
-    auto setButton = CCMenuItemExt::createSpriteExtra(ButtonSprite::create("Set", 0.8f),
-        [this, enabledToggler, newBestToggle, testmodeToggle, level](auto) {
-            auto& container = AutoNoAutoRetry::getOrCreateLevelContainer(level);
-            container["enable"] = enabledToggler->m_toggled;
-            container["percentage"] = m_value;
-            container["new-best"] = newBestToggle->m_toggled;
-            container["testmode"] = testmodeToggle->m_toggled;
-            close();
-        });
+    auto setButton = CCMenuItemExt::createSpriteExtra(ButtonSprite::create("Set", 0.8f), [
+        this, enabledToggler, newBestToggle, testmodeToggle, level
+    ](auto) {
+        auto& container = AutoNoAutoRetry::getOrCreateLevelContainer(level);
+        container["enable"] = enabledToggler->m_toggled;
+        container["percentage"] = m_value;
+        container["new-best"] = newBestToggle->m_toggled;
+        container["testmode"] = testmodeToggle->m_toggled;
+        close();
+    });
     setButton->setPosition({ 110.0f, 24.0f });
     setButton->setID("set-button");
     m_buttonMenu->addChild(setButton);
