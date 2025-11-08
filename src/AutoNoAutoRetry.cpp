@@ -2,12 +2,13 @@
 #include <cvolton.level-id-api/include/EditorIDs.hpp>
 #include <Geode/binding/GJGameLevel.hpp>
 #include <Geode/loader/Mod.hpp>
+#include <jasmine/setting.hpp>
 
 using namespace geode::prelude;
 
 std::pair<matjson::Value*, std::string> getSaveContainer(GJGameLevel* level) {
     std::string id;
-    auto saveKey = "";
+    std::string_view saveKey;
     if (level->m_levelType == GJLevelType::Editor) {
         saveKey = "editor";
         id = fmt::to_string(EditorIDs::getID(level));
@@ -36,12 +37,12 @@ matjson::Value AutoNoAutoRetry::getLevelContainer(GJGameLevel* level) {
 
 matjson::Value& AutoNoAutoRetry::getOrCreateLevelContainer(GJGameLevel* level) {
     auto [saveContainer, id] = getSaveContainer(level);
-    return saveContainer->operator[](id);
+    return (*saveContainer)[id];
 }
 
 template <typename T>
 static T getProperty(const matjson::Value& container, std::string_view key) {
-    return container.get<T>(key).unwrapOr(Mod::get()->getSettingValue<T>(key));
+    return container.get<T>(key).unwrapOr(jasmine::setting::getValue<T>(key));
 }
 
 double AutoNoAutoRetry::getPercentage(const matjson::Value& container) {
@@ -58,20 +59,4 @@ bool AutoNoAutoRetry::getNewBest(const matjson::Value& container) {
 
 bool AutoNoAutoRetry::getTestMode(const matjson::Value& container) {
     return getProperty<bool>(container, "testmode");
-}
-
-void AutoNoAutoRetry::modify(std::map<std::string, std::shared_ptr<geode::Hook>>& hooks) {
-    if (hooks.empty()) return;
-    auto mod = Mod::get();
-    auto enabled = mod->getSettingValue<bool>("enable");
-    for (auto& [name, hook] : hooks) {
-        hook->setAutoEnable(enabled);
-    }
-    listenForSettingChangesV3<bool>("enable", [hooks = hooks](bool value) {
-        for (auto& [name, hook] : hooks) {
-            if (auto err = hook->toggle(value).err()) {
-                log::error("Failed to toggle {} hook: {}", name, *err);
-            }
-        }
-    }, mod);
 }

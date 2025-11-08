@@ -3,12 +3,13 @@
 #include <cvolton.level-id-api/include/EditorIDs.hpp>
 #include <Geode/binding/GameManager.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <jasmine/hook.hpp>
 
 using namespace geode::prelude;
 
 class $modify(ANARPlayLayer, PlayLayer) {
     static void onModify(ModifyBase<ModifyDerive<ANARPlayLayer, PlayLayer>>& self) {
-        AutoNoAutoRetry::modify(self.m_hooks);
+        jasmine::hook::modify(self.m_hooks, "enable");
     }
 
     void resetLevel() {
@@ -27,10 +28,18 @@ class $modify(ANARPlayLayer, PlayLayer) {
 
         auto id = level->m_levelID.value();
         std::string str;
-        if (level->m_levelType == GJLevelType::Editor) str = fmt::format("percentage_normal_local_{}", EditorIDs::getID(level));
-        else if (level->m_gauntletLevel) str = fmt::format("percentage_normal_gauntlet_{}", id);
-        else if (auto dailyID = level->m_dailyID.value(); dailyID > 0) str = fmt::format("percentage_normal_{}_periodic_{}", id, dailyID);
-        else str = fmt::format("percentage_normal_{}", id);
+        if (level->m_levelType == GJLevelType::Editor) {
+            str = fmt::format("percentage_normal_local_{}", EditorIDs::getID(level));
+        }
+        else if (level->m_gauntletLevel) {
+            str = fmt::format("percentage_normal_gauntlet_{}", id);
+        }
+        else if (auto dailyID = level->m_dailyID.value(); dailyID > 0) {
+            str = fmt::format("percentage_normal_{}_periodic_{}", id, dailyID);
+        }
+        else {
+            str = fmt::format("percentage_normal_{}", id);
+        }
 
         return mod->hasSavedValue(str) ? mod->getSavedValue<float>(str) : percent;
     }
@@ -44,15 +53,15 @@ class $modify(ANARPlayLayer, PlayLayer) {
         ) return PlayLayer::destroyPlayer(player, object);
 
         auto GM = GameManager::get();
-        if (!GM->getGameVariable("0026")) return PlayLayer::destroyPlayer(player, object);
+        if (!GM->getGameVariable(GameVar::AutoRetry)) return PlayLayer::destroyPlayer(player, object);
 
         auto percent = getCurrentPercent();
         if (percent < AutoNoAutoRetry::getPercentage(container) && (!AutoNoAutoRetry::getNewBest(container) || percent <= getPercentage())) {
             return PlayLayer::destroyPlayer(player, object);
         }
 
-        GM->setGameVariable("0026", false);
+        GM->setGameVariable(GameVar::AutoRetry, false);
         PlayLayer::destroyPlayer(player, object);
-        GM->setGameVariable("0026", true);
+        GM->setGameVariable(GameVar::AutoRetry, true);
     }
 };

@@ -3,6 +3,7 @@
 #include <Geode/binding/ButtonSprite.hpp>
 #include <Geode/binding/Slider.hpp>
 #include <Geode/ui/TextInput.hpp>
+#include <jasmine/convert.hpp>
 
 using namespace geode::prelude;
 
@@ -76,11 +77,7 @@ bool ANARSettingsPopup::setup(GJGameLevel* level) {
     });
 
     percentageInput->setCallback([this, percentageSlider](const std::string& text) {
-        #ifdef __cpp_lib_to_chars
-        std::from_chars(text.data(), text.data() + text.size(), m_value);
-        #else
-        if (auto num = numFromString<double>(text).ok()) m_value = *num;
-        #endif
+        jasmine::convert::toFloat(text, m_value);
         m_value = std::clamp(m_value, 0.0, 100.0);
         percentageSlider->setValue(m_value / 100.0);
     });

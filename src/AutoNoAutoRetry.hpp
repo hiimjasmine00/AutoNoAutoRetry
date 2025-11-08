@@ -9,5 +9,4 @@ public:
     static bool getEnable(const matjson::Value& container);
     static bool getNewBest(const matjson::Value& container);
     static bool getTestMode(const matjson::Value& container);
-    static void modify(std::map<std::string, std::shared_ptr<geode::Hook>>& hooks);
 };

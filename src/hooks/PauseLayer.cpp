@@ -3,12 +3,13 @@
 #include <Geode/binding/GJBaseGameLayer.hpp>
 #include <Geode/modify/PauseLayer.hpp>
 #include <Geode/ui/BasedButtonSprite.hpp>
+#include <jasmine/hook.hpp>
 
 using namespace geode::prelude;
 
 class $modify(ANARPauseLayer, PauseLayer) {
     static void onModify(ModifyBase<ModifyDerive<ANARPauseLayer, PauseLayer>>& self) {
-        AutoNoAutoRetry::modify(self.m_hooks);
+        jasmine::hook::modify(self.m_hooks, "enable");
     }
 
     void customSetup() {
