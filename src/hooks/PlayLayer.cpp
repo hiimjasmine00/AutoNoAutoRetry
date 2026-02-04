@@ -45,7 +45,7 @@ class $modify(ANARPlayLayer, PlayLayer) {
     }
 
     void destroyPlayer(PlayerObject* player, GameObject* object) {
-        auto container = AutoNoAutoRetry::getLevelContainer(m_level);
+        auto& container = AutoNoAutoRetry::getLevelContainer(m_level);
 
         if (
             object == m_anticheatSpike || m_isPlatformer || m_isPracticeMode ||

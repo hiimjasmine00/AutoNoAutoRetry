@@ -1,4 +1,7 @@
 # Auto No Auto-Retry Changelog
+## v1.1.1 (2026-02-04)
+- Ported to Geometry Dash v2.208 / Geode SDK v5.0.0
+
 ## v1.1.0 (2025-07-06)
 - Added "New Best" and "Testmode" settings ([#1](https://github.com/hiimjasmine00/AutoNoAutoRetry/pull/1), [#2](https://github.com/hiimjasmine00/AutoNoAutoRetry/pull/2))
 - Added individual level customization for the settings popup

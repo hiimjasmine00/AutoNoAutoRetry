@@ -1,10 +1,10 @@
 #include <Geode/ui/Popup.hpp>
 
-class ANARSettingsPopup : public geode::Popup<GJGameLevel*> {
+class ANARSettingsPopup : public geode::Popup {
 protected:
     double m_value;
 
-    bool setup(GJGameLevel*) override;
+    bool init(GJGameLevel*);
 public:
     static ANARSettingsPopup* create(GJGameLevel*);
 

@@ -9,7 +9,7 @@ using namespace geode::prelude;
 
 ANARSettingsPopup* ANARSettingsPopup::create(GJGameLevel* level) {
     auto ret = new ANARSettingsPopup();
-    if (ret->initAnchored(220.0f, 180.0f, level)) {
+    if (ret->init(level)) {
         ret->autorelease();
         return ret;
     }
@@ -17,7 +17,9 @@ ANARSettingsPopup* ANARSettingsPopup::create(GJGameLevel* level) {
     return nullptr;
 }
 
-bool ANARSettingsPopup::setup(GJGameLevel* level) {
+bool ANARSettingsPopup::init(GJGameLevel* level) {
+    if (!Popup::init(220.0f, 180.0f)) return false;
+
     setID("ANARSettingsPopup");
     setTitle("Auto No Auto-Retry");
     m_title->setID("auto-no-auto-retry-title");
@@ -27,7 +29,7 @@ bool ANARSettingsPopup::setup(GJGameLevel* level) {
     m_closeBtn->setID("close-button");
     m_noElasticity = true;
 
-    auto container = AutoNoAutoRetry::getLevelContainer(level);
+    auto& container = AutoNoAutoRetry::getLevelContainer(level);
     m_value = AutoNoAutoRetry::getPercentage(container);
     auto enabled = AutoNoAutoRetry::getEnable(container);
     auto newBest = AutoNoAutoRetry::getNewBest(container);
@@ -77,7 +79,7 @@ bool ANARSettingsPopup::setup(GJGameLevel* level) {
     });
 
     percentageInput->setCallback([this, percentageSlider](const std::string& text) {
-        jasmine::convert::toFloat(text, m_value);
+        jasmine::convert::to(text, m_value);
         m_value = std::clamp(m_value, 0.0, 100.0);
         percentageSlider->setValue(m_value / 100.0);
     });
