@@ -8,4 +8,4 @@ namespace AutoNoAutoRetry {
     bool getEnable(const matjson::Value& container);
     bool getNewBest(const matjson::Value& container);
     bool getTestMode(const matjson::Value& container);
-};
+}
