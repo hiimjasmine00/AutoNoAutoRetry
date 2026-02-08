@@ -51,6 +51,12 @@
         "geode.node-ids": ">=v1.2.0",
         "cvolton.level-id-api": ">=v2.0.0-beta.1"
     },
+    "incompatibilities": {
+        "supkittymeow.time_anti-restart": {
+            "version": ">=v1.0.0",
+            "breaking": false
+        }
+    },
     "links": {
         "community": "https://discord.gg/QVKmbvBXA7",
         "source": "https://github.com/hiimjasmine00/AutoNoAutoRetry",
