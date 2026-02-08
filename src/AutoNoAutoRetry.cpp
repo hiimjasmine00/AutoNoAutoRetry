@@ -40,7 +40,7 @@ matjson::Value& AutoNoAutoRetry::getOrCreateLevelContainer(GJGameLevel* level) {
 }
 
 template <typename T>
-static T getProperty(const matjson::Value& container, std::string_view key) {
+T getProperty(const matjson::Value& container, std::string_view key) {
     return container.get<T>(key).unwrapOr(jasmine::setting::getValue<T>(key));
 }
 
