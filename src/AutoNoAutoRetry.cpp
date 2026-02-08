@@ -26,7 +26,7 @@ std::pair<matjson::Value*, std::string> getSaveContainer(GJGameLevel* level) {
         id = fmt::to_string(level->m_levelID.value());
     }
 
-    return { &Mod::get()->getSaveContainer()[saveKey], id };
+    return std::make_pair(&Mod::get()->getSaveContainer()[saveKey], std::move(id));
 }
 
 const matjson::Value& AutoNoAutoRetry::getLevelContainer(GJGameLevel* level) {
