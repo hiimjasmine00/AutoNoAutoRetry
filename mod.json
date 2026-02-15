@@ -1,12 +1,12 @@
 {
-    "geode": "5.0.0-alpha.2",
+    "geode": "5.0.0-beta.1",
     "gd": {
         "android": "2.2081",
         "win": "2.2081",
         "mac": "2.2081",
         "ios": "2.2081"
     },
-    "version": "v1.1.1-beta.1",
+    "version": "v1.1.1",
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",
@@ -49,7 +49,7 @@
     },
     "dependencies": {
         "geode.node-ids": ">=v1.2.0",
-        "cvolton.level-id-api": ">=v2.0.0-beta.1"
+        "cvolton.level-id-api": ">=v2.0.0"
     },
     "incompatibilities": {
         "supkittymeow.time_anti-restart": ">=v1.0.0"
