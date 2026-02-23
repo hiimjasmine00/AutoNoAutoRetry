@@ -28,6 +28,8 @@ bool ANARSettingsPopup::init(GJGameLevel* level) {
     m_closeBtn->setID("close-button");
     m_noElasticity = true;
 
+    m_level = level;
+
     auto& container = AutoNoAutoRetry::getLevelContainer(level);
     m_value = AutoNoAutoRetry::getPercentage(container);
     auto enabled = AutoNoAutoRetry::getEnable(container);
