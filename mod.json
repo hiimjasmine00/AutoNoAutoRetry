@@ -1,12 +1,12 @@
 {
-    "geode": "5.0.1",
+    "geode": "5.1.0",
     "gd": {
         "android": "2.2081",
         "win": "2.2081",
         "mac": "2.2081",
         "ios": "2.2081"
     },
-    "version": "v1.1.2",
+    "version": "v1.1.3",
     "id": "hiimjustin000.auto_no_auto_retry",
     "name": "Auto No Auto-Retry",
     "developer": "hiimjasmine00",

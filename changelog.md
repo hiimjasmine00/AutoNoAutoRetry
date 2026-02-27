@@ -1,4 +1,7 @@
 # Auto No Auto-Retry Changelog
+## v1.1.3 (2026-02-27)
+- Fixed setting change events
+
 ## v1.1.2 (2026-02-23)
 - Fixed a bug where the game would crash when saving settings from the Auto No Auto-Retry popup (Reported by [realskellyboi](user:20839019))
 
