@@ -1,7 +1,7 @@
 #include <Geode/ui/Popup.hpp>
 #include <Geode/ui/TextInput.hpp>
 
-class ANARSettingsPopup : public geode::Popup, public TextInputDelegate {
+class ANARSettingsPopup : public geode::Popup {
 protected:
     double m_value;
     GJGameLevel* m_level;
@@ -17,7 +17,6 @@ protected:
     void onLeft(cocos2d::CCObject*);
     void onRight(cocos2d::CCObject*);
     void sliderChanged(cocos2d::CCObject*);
-    void textChanged(CCTextInputNode*) override;
     void onEnable(cocos2d::CCObject*);
     void onSet(cocos2d::CCObject*);
 public:

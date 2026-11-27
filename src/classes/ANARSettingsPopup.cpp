@@ -40,11 +40,17 @@ bool ANARSettingsPopup::init(GJGameLevel* level) {
     m_percentageInput->setFilter(".0123456789");
     m_percentageInput->setMaxCharCount(6);
     m_percentageInput->setPosition({ 61.25f, 120.0f });
-    m_percentageInput->getInputNode()->setLabelPlaceholderColor({ 120, 170, 240 });
+    m_percentageInput->setPlaceholderColor({ 120, 170, 240 });
     m_percentageInput->setString(fmt::format("{:.2f}", m_value));
     m_percentageInput->setEnabled(enabled);
     m_percentageInput->setAnchorPoint({ 0.0f, 0.5f });
-    m_percentageInput->setDelegate(this);
+    m_percentageInput->setCallback([this](const std::string& text) {
+        if (auto num = numFromString<double>(text)) {
+            m_value = num.unwrap();
+        }
+        m_value = std::clamp(m_value, 0.0, 100.0);
+        m_percentageSlider->setValue(m_value / 100.0);
+    });
     m_percentageInput->setID("percentage-input");
     m_mainLayer->addChild(m_percentageInput);
 
@@ -147,14 +153,6 @@ void ANARSettingsPopup::onRight(CCObject* sender) {
 void ANARSettingsPopup::sliderChanged(CCObject* sender) {
     m_value = round(static_cast<SliderThumb*>(sender)->getValue() * 10000.0) / 100.0;
     m_percentageInput->setString(fmt::format("{:.2f}", m_value));
-}
-
-void ANARSettingsPopup::textChanged(CCTextInputNode* input) {
-    if (auto num = numFromString<double>(input->getString())) {
-        m_value = num.unwrap();
-    }
-    m_value = std::clamp(m_value, 0.0, 100.0);
-    m_percentageSlider->setValue(m_value / 100.0);
 }
 
 void ANARSettingsPopup::onEnable(CCObject* sender) {

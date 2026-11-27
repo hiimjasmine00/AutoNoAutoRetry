@@ -17,14 +17,15 @@ class $modify(ANARPauseLayer, PauseLayer) {
 
         if (GJBaseGameLayer::get()->m_isPlatformer) return;
 
-        auto rightButtonMenu = getChildByID("right-button-menu");
-        auto anarSprite = CircleButtonSprite::createWithSprite("ANAR_anarBtn_001.png"_spr, 1.0f, CircleBaseColor::Green, CircleBaseSize::MediumAlt);
-        anarSprite->getTopNode()->setScale(1.0f);
-        anarSprite->setScale(0.6f);
-        auto anarButton = CCMenuItemSpriteExtra::create(anarSprite, this, menu_selector(ANARPauseLayer::onAutoNoAutoRetry));
-        anarButton->setID("settings-button"_spr);
-        rightButtonMenu->addChild(anarButton);
-        rightButtonMenu->updateLayout();
+        if (auto rightButtonMenu = m_mainLayer->getChildByID("right-button-menu")) {
+            auto anarSprite = CircleButtonSprite::createWithSprite("ANAR_anarBtn_001.png"_spr, 1.0f, CircleBaseColor::Green, CircleBaseSize::MediumAlt);
+            anarSprite->getTopNode()->setScale(1.0f);
+            anarSprite->setScale(0.51f);
+            auto anarButton = CCMenuItemSpriteExtra::create(anarSprite, this, menu_selector(ANARPauseLayer::onAutoNoAutoRetry));
+            anarButton->setID("settings-button"_spr);
+            rightButtonMenu->addChild(anarButton);
+            rightButtonMenu->updateLayout();
+        }
     }
 
     void onAutoNoAutoRetry(CCObject* sender) {

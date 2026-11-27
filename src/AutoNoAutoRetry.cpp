@@ -1,5 +1,5 @@
 #include "AutoNoAutoRetry.hpp"
-#include <cvolton.level-id-api/include/EditorIDs.hpp>
+#include <cvolton.level-id-api/EditorIDs.hpp>
 #include <Geode/binding/GJGameLevel.hpp>
 #include <Geode/loader/Mod.hpp>
 #include <jasmine/setting.hpp>

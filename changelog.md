@@ -1,4 +1,7 @@
 # Auto No Auto-Retry Changelog
+## v1.1.4 (2026-11-27)
+- Ported to Geometry Dash v2.209 / Geode SDK v6.0.0
+
 ## v1.1.3 (2026-02-27)
 - Fixed setting change events
 

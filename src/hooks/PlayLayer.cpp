@@ -1,6 +1,6 @@
 #include "../AutoNoAutoRetry.hpp"
 #include "../classes/ANARSettingsPopup.hpp"
-#include <cvolton.level-id-api/include/EditorIDs.hpp>
+#include <cvolton.level-id-api/EditorIDs.hpp>
 #include <Geode/binding/GameManager.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include <jasmine/hook.hpp>
